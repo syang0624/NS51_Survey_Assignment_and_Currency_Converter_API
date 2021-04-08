@@ -14,7 +14,6 @@ dataPH = pd.read_csv(PHfile)
 print(dataKR.head())
 print(dataMN.head())
 print(dataPH.head())
-print('fda')
 
 
 def mean(p):
