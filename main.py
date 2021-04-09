@@ -10,83 +10,72 @@ PHfile = 'Plastic Survey - Final (Combined) - PH.csv'
 dataKR = pd.read_csv(KRfile)
 dataMN = pd.read_csv(MNfile)
 dataPH = pd.read_csv(PHfile)
-#data.columns = ['New_plastic_number',	'Plastic_necessity_opinion', 'Plastic_purpose',	'Reusable_number',	'Reuse_plastic_practice',	'Shopping_reusable_practice',	'Attention	Plastic_harm_opinion',	'Reusable_more_use',	'Less_plastic_research',	',Income_reusable_opinion',	'Importance_rank_1',	'Importance_rank_2',	'Importance_rank_3',	'Importance_rank_4',	'Importance_rank_5',	'Age',	'Gender',	'Education',	'Dependants',	'City',	'Income	Increase_choice_1',	'Increase_choice_2',	'Increase_choice_3',	'Increase_choice_4',	'Increase_choice_5']
+#data.columns = ['New_plastic_number', 'Plastic_necessity_opinion', 'Plastic_purpose',    'Reusable_number', 'Reuse_plastic_practice',  'Shopping_reusable_practice',  'Attention Plastic_harm_opinion', 'Reusable_more_use',   'Less_plastic_research',   ',Income_reusable_opinion',    'Importance_rank_1',   'Importance_rank_2',   'Importance_rank_3',   'Importance_rank_4',   'Importance_rank_5',   'Age', 'Gender',  'Education',   'Dependants',  'City',    'Income    Increase_choice_1',    'Increase_choice_2',   'Increase_choice_3',   'Increase_choice_4',   'Increase_choice_5']
 print(dataKR.head())
 print(dataMN.head())
 print(dataPH.head())
 
 
 def mean(p):
-    price_total = 0
-    for i in p:
-        price_total = price_total + i
-    return price_total / len(p)
+   price_total = 0
+   for i in p:
+       price_total = price_total + i
+   return price_total / len(p)
 
 
 def median(p):
-    #p.sort()
-    if len(p) % 2 != 0:
-        mid_num = int((len(p) - 1) / 2)
-        return p[mid_num]
-    elif len(p) % 2 == 0:
-        mid_num1 = int(len(p) / 2)
-        mid_num2 = int(len(p) / 2) - 1
-        return (p[mid_num1] + p[mid_num2]) / 2
+   #p.sort()
+   if len(p) % 2 != 0:
+       mid_num = int((len(p) - 1) / 2)
+       return p[mid_num]
+   elif len(p) % 2 == 0:
+       mid_num1 = int(len(p) / 2)
+       mid_num2 = int(len(p) / 2) - 1
+       return (p[mid_num1] + p[mid_num2]) / 2
 
 
 def mode(p):
-    max_count = (0, 0)
-    for i in p:
-        frequency = p.count(i)
-        if frequency > max_count[0]:
-            max_count = (frequency, i)
-    return max_count[1]
+   max_count = (0, 0)
+   for i in p:
+       frequency = p.count(i)
+       if frequency > max_count[0]:
+           max_count = (frequency, i)
+   return max_count[1]
 
 
 def stand_devb(p):
-    m = mean(p)
-    total = 0
-    for i in range(len(p)):
-        total += (p[i] - m) ** 2
-    sd = (total / (len(p) - 1)) ** 0.5  # Bessel's correction n-1
-    return sd
+   m = mean(p)
+   total = 0
+   for i in range(len(p)):
+       total += (p[i] - m) ** 2
+   sd = (total / (len(p) - 1)) ** 0.5  # Bessel's correction n-1
+   return sd
 
 
 def data_range(p):
-    p.sort()
-    r = p[-1] - p[0]
-    return r
+   p.sort()
+   r = p[-1] - p[0]
+   return r
 
-
-#mean1 = mean(house_price1)
-#mean2 = mean(house_price2)
-
-#sd1 = stand_devb(house_price1)
-#sd2 = stand_devb(house_price2)
-
-#n1 = len(house_price1)
-#n2 = len(house_price2)
-
-#SE = (sd1 ** 2 / len(house_price1) + sd2 ** 2 / len(house_price2)) ** 0.5
 
 def t_score():
-    t = (mean2 - mean1) / SE
-    if t < 0:
-        t = t * -1
-    else:
-        t = t
+   t = (mean2 - mean1) / SE
+   if t < 0:
+       t = t * -1
+   else:
+       t = t
 
-    if mean1 < mean2:
-        df = mean1 - 1
-    else:
-        df = mean2 - 1
-    # conservative degrees of freedom, use the smaller sample size and subtract by 1
+   if mean1 < mean2:
+       df = mean1 - 1
+   else:
+       df = mean2 - 1
+   # conservative degrees of freedom, use the smaller sample size and subtract by 1
 
 def pvalue():
-    p = stats.t.cdf(-t, df)
+   p = stats.t.cdf(-t, df)
 
-    Cohensd = (mean2 - mean1) / (((n1 - 1) * (sd1 ** 2) + (n2 - 1) * (sd2 ** 2)) / n1 + n2 - 2) ** 0.5
-    HedgeG = Cohensd * (1 - (3 / (4 * (n1 + n2) - 9)))
+   Cohensd = (mean2 - mean1) / (((n1 - 1) * (sd1 ** 2) + (n2 - 1) * (sd2 ** 2)) / n1 + n2 - 2) ** 0.5
+   HedgeG = Cohensd * (1 - (3 / (4 * (n1 + n2) - 9)))
 
 print("KR New Plastic#:",mean(dataKR['New_plastic_number']))
 print("KR Plastic Necessity:",mean(dataKR['Plastic_necessity_opinion']))
