@@ -1,28 +1,31 @@
+#import and install all the necessary libraries
 import os
 os.system('pip3 install pandas')
 os.system('pip3 install scipy')
 import pandas as pd
 from scipy import stats
 
+#import all the data set and label them
 KRfile = 'Plastic Survey - Final (Combined) - KR.csv'
 MNfile = 'Plastic Survey - Final (Combined) - MN.csv'
 PHfile = 'Plastic Survey - Final (Combined) - PH.csv'
 dataKR = pd.read_csv(KRfile)
 dataMN = pd.read_csv(MNfile)
 dataPH = pd.read_csv(PHfile)
-#data.columns = ['New_plastic_number', 'Plastic_necessity_opinion', 'Plastic_purpose',    'Reusable_number', 'Reuse_plastic_practice',  'Shopping_reusable_practice',  'Attention Plastic_harm_opinion', 'Reusable_more_use',   'Less_plastic_research',   ',Income_reusable_opinion',    'Importance_rank_1',   'Importance_rank_2',   'Importance_rank_3',   'Importance_rank_4',   'Importance_rank_5',   'Age', 'Gender',  'Education',   'Dependants',  'City',    'Income    Increase_choice_1',    'Increase_choice_2',   'Increase_choice_3',   'Increase_choice_4',   'Increase_choice_5']
+
+#data.columns = ['New_plastic_number', 'Plastic_necessity_opinion', 'Plastic_purpose',    'Reusable_number', 'Reuse_plastic_practice',  'Shopping_reusable_practice',  'Attention Plastic_harm_opinion', 'Reusable_more_use',   'Less_plastic_research',   ',Income_reusable_opinion',    'Importance_rank_1',   'Importance_rank_2',   'Importance_rank_3',   'Importance_rank_4',   'Importance_rank_5',   'Age', 'Gender',  'Education',   'Dependants',  'City',    'Income    Increase_choice_1',    'Increase_choice_2',   'Increase_choice_3',   'Increase_choice_4',   'Increase_choice_5'] => These are the columns that we have in our spreadsheet
 print(dataKR.head())
 print(dataMN.head())
 print(dataPH.head())
 
-
+#add all the elements and divide by the length of the string
 def mean(p):
    price_total = 0
    for i in p:
        price_total = price_total + i
    return price_total / len(p)
 
-
+#locate the median number by even number characteristics
 def median(p):
    #p.sort()
    if len(p) % 2 != 0:
@@ -33,7 +36,7 @@ def median(p):
        mid_num2 = int(len(p) / 2) - 1
        return (p[mid_num1] + p[mid_num2]) / 2
 
-
+#count the frequency for each of the numbers that we have and add the counter continuously.
 def mode(p):
    max_count = (0, 0)
    for i in p:
@@ -42,7 +45,7 @@ def mode(p):
            max_count = (frequency, i)
    return max_count[1]
 
-
+#directly comes from the SD equation.
 def stand_devb(p):
    m = mean(p)
    total = 0
@@ -51,13 +54,13 @@ def stand_devb(p):
    sd = (total / (len(p) - 1)) ** 0.5  # Bessel's correction n-1
    return sd
 
-
+#MAX-MIN
 def data_range(p):
    p.sort()
    r = p[-1] - p[0]
    return r
 
-
+#directly comes from t_score equation
 def t_score():
    t = (mean2 - mean1) / SE
    if t < 0:
@@ -77,6 +80,7 @@ def pvalue():
    Cohensd = (mean2 - mean1) / (((n1 - 1) * (sd1 ** 2) + (n2 - 1) * (sd2 ** 2)) / n1 + n2 - 2) ** 0.5
    HedgeG = Cohensd * (1 - (3 / (4 * (n1 + n2) - 9)))
 
+#print all the descriptive statistics that we use
 print("KR New Plastic#:",mean(dataKR['New_plastic_number']))
 print("KR Plastic Necessity:",mean(dataKR['Plastic_necessity_opinion']))
 print("KR Reusable#:",mean(dataKR['Reusable_number']))
